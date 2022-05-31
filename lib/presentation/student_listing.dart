@@ -1,12 +1,17 @@
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:student/application/student/student_cubit.dart';
+import 'package:student/core/constants.dart';
 import 'package:student/infrastructure/student_model.dart';
 import 'package:student/main.dart';
 import 'package:student/presentation/add_student.dart';
-
-import '../application/counter/student_bloc.dart';
+import 'package:student/presentation/edit_student.dart';
+import 'package:student/presentation/student_details.dart';
 
 class StudentListScreen extends StatelessWidget {
   const StudentListScreen({Key? key}) : super(key: key);
@@ -28,7 +33,8 @@ class StudentListScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              print(studentDB.values.length);
+              // print(studentDB.values.length);
+              studentDB.clear();
             },
             icon: Icon(
               Icons.add,
@@ -37,22 +43,45 @@ class StudentListScreen extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: BlocBuilder<StudentBloc, StudentState>(
+        child: BlocBuilder<StudentCubit, StudentState>(
           builder: (context, state) {
             // print(state.students);
 
-            return state.students.isEmpty
-                ? const Text("No data found")
-                : ListView.separated(
-                    itemBuilder: (context, index) {
-                      StudentModel student = state.students[index];
-                      return ListTile(
-                        title: Text(student.name),
-                      );
+            return ListView.separated(
+              itemBuilder: (context, index) {
+                // state as StudentInitial;
+                StudentModel student = state.students[index];
+                print(student.photo);
+                return Card(
+                  child: ListTile(
+                    leading: 
+                     student.photo==null ? CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        'https://e7.pngegg.com/pngimages/78/788/png-clipart-computer-icons-avatar-business-computer-software-user-avatar-child-face.png'),
+                    radius: 50,
+                  ) :
+                  CircleAvatar(
+                    backgroundImage: FileImage(
+                      File(student.photo.toString())),
+                    radius: 50,
+                  )
+                  ,
+                    title: Text(student.name),
+                    subtitle: Text(student.division),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => StudentDetailPage(
+                                    index: index,
+                                  )));
                     },
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemCount: state.students.length,
-                  );
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => kHeight,
+              itemCount: state.students.length,
+            );
           },
         ),
       ),
