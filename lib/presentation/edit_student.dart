@@ -12,33 +12,32 @@ import '../application/student/student_cubit.dart';
 import '../core/constants.dart';
 
 class EditStudentScreen extends StatelessWidget {
-  StudentModel student;
   int index;
   EditStudentScreen({
     Key? key,
-    required this.student,
     required this.index,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _nameController =
-        TextEditingController(text: student.name);
-    TextEditingController _ageController =
-        TextEditingController(text: student.age);
-    TextEditingController _standardController =
-        TextEditingController(text: student.standard);
-    TextEditingController _divisionController =
-        TextEditingController(text: student.division);
-    XFile? photo;
-    final ImagePicker _picker = ImagePicker();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text('Add New Student'),
+        title: Text('Edit Student'),
       ),
       body: BlocBuilder<StudentCubit, StudentState>(
         builder: (context, state) {
+          StudentModel student = state.students[index];
+          TextEditingController _nameController =
+              TextEditingController(text: student.name);
+          TextEditingController _ageController =
+              TextEditingController(text: student.age);
+          TextEditingController _standardController =
+              TextEditingController(text: student.standard);
+          TextEditingController _divisionController =
+              TextEditingController(text: student.division);
+          XFile? photo;
+          final ImagePicker _picker = ImagePicker();
           String photoToSave = student.photo.toString();
           return SafeArea(
             child: Padding(
@@ -140,14 +139,11 @@ class EditStudentScreen extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () async{
+                    onPressed: () async {
                       String name = _nameController.text.trim();
                       String age = _ageController.text.trim();
                       String standard = _standardController.text.trim();
                       String division = _divisionController.text.trim();
-                      // if (photo!.path.isNotEmpty) {
-                      //   photoToSave = photo!.path;
-                      // }
                       if (name.isEmpty ||
                           age.isEmpty ||
                           standard.isEmpty ||
@@ -159,10 +155,9 @@ class EditStudentScreen extends StatelessWidget {
                           age: age,
                           standard: standard,
                           division: division,
-                          photo: state.photo==null?
-                          state.students[index].photo 
-                          : photo!.path
-                          , 
+                          photo: state.photo == null
+                              ? state.students[index].photo
+                              : photo!.path,
                         );
                         context
                             .read<StudentCubit>()

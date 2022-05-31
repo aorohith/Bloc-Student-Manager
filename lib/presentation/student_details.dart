@@ -18,57 +18,57 @@ class StudentDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StudentCubit, StudentState>(
-          builder: (context, state) {
-            StudentModel student = state.students[index];
+      builder: (context, state) {
+        StudentModel student = state.students[index];
         return Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.push(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => EditStudentScreen(
-                                index: index,
-                                student: state.students[index],
-                              )));
-                },
-                icon: Icon(Icons.edit))
-          ]),
-          body: SafeArea(
-              child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: 
-                 Column(
-                  children: [
-                    Container(
-                      width: 250,
-                      height: 300,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        image: DecorationImage(
-                          image: FileImage(
-                            File(
-                              student.photo.toString(),
-                            ),
-                          ),
-                          fit: BoxFit.cover,
+                        builder: (context) => EditStudentScreen(
+                          index: index,
                         ),
                       ),
-                    ),
-                    kHeight20,
-                    StudentDetailCard(keys: 'Name : ', values: student.name),
-                    StudentDetailCard(keys: 'Age : ', values: student.age),
-                    StudentDetailCard(
-                        keys: 'Standard : ', values: student.standard),
-                    StudentDetailCard(
-                        keys: 'Division : ', values: student.division),
-                  ],
-                ))));
-              },
-            );
-      }
-   
+                    );
+                  },
+                  icon: Icon(Icons.edit))
+            ]),
+            body: SafeArea(
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 250,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            image: DecorationImage(
+                              image: FileImage(
+                                File(
+                                  student.photo.toString(),
+                                ),
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        kHeight20,
+                        StudentDetailCard(
+                            keys: 'Name : ', values: student.name),
+                        StudentDetailCard(keys: 'Age : ', values: student.age),
+                        StudentDetailCard(
+                            keys: 'Standard : ', values: student.standard),
+                        StudentDetailCard(
+                            keys: 'Division : ', values: student.division),
+                      ],
+                    ))));
+      },
+    );
+  }
 }
 
 class StudentDetailCard extends StatelessWidget {
