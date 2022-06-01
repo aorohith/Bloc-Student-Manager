@@ -30,4 +30,12 @@ class StudentCubit extends Cubit<StudentState> {
   void updatePhoto(XFile imagePath){
     emit(StudentState(students: studentDB.values.toList(), photo: imagePath));
   }
+  
+  void search(String qry){
+    List<StudentModel> value = studentDB.values.toList().where((element) =>
+      element.name.toLowerCase().contains(qry)
+    ).toList();
+  print(value);
+     emit(StudentState(students: studentDB.values.toList(),searchResult: value));
+  }
 }

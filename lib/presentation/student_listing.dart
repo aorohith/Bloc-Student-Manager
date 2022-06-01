@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:student/infrastructure/student_model.dart';
 import 'package:student/main.dart';
 import 'package:student/presentation/add_student.dart';
 import 'package:student/presentation/edit_student.dart';
+import 'package:student/presentation/search_screen.dart';
 import 'package:student/presentation/student_details.dart';
 
 class StudentListScreen extends StatelessWidget {
@@ -33,11 +33,15 @@ class StudentListScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              // print(studentDB.values.length);
-              studentDB.clear();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(),
+                ),
+              );
             },
             icon: Icon(
-              Icons.add,
+              Icons.search,
             ),
           ),
         ],
@@ -54,18 +58,17 @@ class StudentListScreen extends StatelessWidget {
                 print(student.photo);
                 return Card(
                   child: ListTile(
-                    leading: 
-                     student.photo==null ? CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'https://e7.pngegg.com/pngimages/78/788/png-clipart-computer-icons-avatar-business-computer-software-user-avatar-child-face.png'),
-                    radius: 50,
-                  ) :
-                  CircleAvatar(
-                    backgroundImage: FileImage(
-                      File(student.photo.toString())),
-                    radius: 50,
-                  )
-                  ,
+                    leading: student.photo == null
+                        ? CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                'https://e7.pngegg.com/pngimages/78/788/png-clipart-computer-icons-avatar-business-computer-software-user-avatar-child-face.png'),
+                            radius: 50,
+                          )
+                        : CircleAvatar(
+                            backgroundImage:
+                                FileImage(File(student.photo.toString())),
+                            radius: 50,
+                          ),
                     title: Text(student.name),
                     subtitle: Text(student.division),
                     onTap: () {
