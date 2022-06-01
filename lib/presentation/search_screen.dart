@@ -40,7 +40,7 @@ class SearchScreen extends StatelessWidget {
                   child: ListView.separated(
                     itemBuilder: (context, index) {
                       // state as StudentInitial;
-                      StudentModel student = state.students[index];
+                      StudentModel student = state.searchResult[index];
                       print(student.photo);
                       return Card(
                         child: ListTile(
@@ -69,7 +69,7 @@ class SearchScreen extends StatelessWidget {
                       );
                     },
                     separatorBuilder: (context, index) => kHeight,
-                    itemCount: state.students.length,
+                    itemCount: state.searchResult.length,
                   ),
                 )
               ],
