@@ -27,7 +27,7 @@ class StudentCubit extends Cubit<StudentState> {
     emit(StudentState(students: studentDB.values.toList()));
   }
 
-  void updatePhoto(XFile imagePath){
+  void updatePhoto(String imagePath){
     emit(StudentState(students: studentDB.values.toList(), photo: imagePath));
   }
   

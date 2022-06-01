@@ -6,7 +6,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:student/infrastructure/student_model.dart';
-import 'package:student/main.dart';
 
 import '../application/student/student_cubit.dart';
 import '../core/constants.dart';
@@ -28,13 +27,14 @@ class EditStudentScreen extends StatelessWidget {
       body: BlocBuilder<StudentCubit, StudentState>(
         builder: (context, state) {
           StudentModel student = state.students[index];
-          TextEditingController _nameController =
+
+          TextEditingController nameController =
               TextEditingController(text: student.name);
-          TextEditingController _ageController =
+          TextEditingController ageController =
               TextEditingController(text: student.age);
-          TextEditingController _standardController =
+          TextEditingController standardController =
               TextEditingController(text: student.standard);
-          TextEditingController _divisionController =
+          TextEditingController divisionController =
               TextEditingController(text: student.division);
           XFile? photo;
           final ImagePicker _picker = ImagePicker();
@@ -46,13 +46,13 @@ class EditStudentScreen extends StatelessWidget {
                 children: [
                   Stack(
                     children: [
-                      state.photo == null
+                      state.photo==null
                           ? CircleAvatar(
-                              backgroundImage: FileImage(File(photoToSave)),
+                              backgroundImage: FileImage(File(photoToSave)),//db image
                               radius: 50,
                             )
                           : CircleAvatar(
-                              backgroundImage: FileImage(File(photo!.path)),
+                              backgroundImage: FileImage(File(state.photo.toString())),//img picker image
                               radius: 50,
                             ),
                       Positioned(
@@ -78,7 +78,7 @@ class EditStudentScreen extends StatelessWidget {
                                                 source: ImageSource.camera);
                                             context
                                                 .read<StudentCubit>()
-                                                .updatePhoto(photo!);
+                                                .updatePhoto(photo!.path.toString());
                                             Navigator.pop(context);
                                           },
                                           child: Icon(Icons.camera_alt),
@@ -89,7 +89,7 @@ class EditStudentScreen extends StatelessWidget {
                                                 source: ImageSource.gallery);
                                             context
                                                 .read<StudentCubit>()
-                                                .updatePhoto(photo!);
+                                                .updatePhoto(photo!.path.toString());
                                             Navigator.pop(context);
                                           },
                                           child: Icon(Icons.collections),
@@ -108,7 +108,7 @@ class EditStudentScreen extends StatelessWidget {
                   ),
                   kHeight20,
                   TextFormField(
-                    controller: _nameController,
+                    controller: nameController,
                     decoration: InputDecoration(
                       labelText: "Name",
                       border: OutlineInputBorder(),
@@ -116,7 +116,7 @@ class EditStudentScreen extends StatelessWidget {
                   ),
                   kHeight,
                   TextFormField(
-                    controller: _ageController,
+                    controller: ageController,
                     decoration: InputDecoration(
                       labelText: "Age",
                       border: OutlineInputBorder(),
@@ -124,7 +124,7 @@ class EditStudentScreen extends StatelessWidget {
                   ),
                   kHeight,
                   TextFormField(
-                    controller: _standardController,
+                    controller: standardController,
                     decoration: InputDecoration(
                       labelText: "Standard",
                       border: OutlineInputBorder(),
@@ -132,7 +132,7 @@ class EditStudentScreen extends StatelessWidget {
                   ),
                   kHeight,
                   TextFormField(
-                    controller: _divisionController,
+                    controller: divisionController,
                     decoration: InputDecoration(
                       labelText: "Division",
                       border: OutlineInputBorder(),
@@ -140,10 +140,10 @@ class EditStudentScreen extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () async {
-                      String name = _nameController.text.trim();
-                      String age = _ageController.text.trim();
-                      String standard = _standardController.text.trim();
-                      String division = _divisionController.text.trim();
+                      String name = nameController.text.trim();
+                      String age = ageController.text.trim();
+                      String standard = standardController.text.trim();
+                      String division = divisionController.text.trim();
                       if (name.isEmpty ||
                           age.isEmpty ||
                           standard.isEmpty ||
@@ -157,7 +157,7 @@ class EditStudentScreen extends StatelessWidget {
                           division: division,
                           photo: state.photo == null
                               ? state.students[index].photo
-                              : photo!.path,
+                              : state.photo,
                         );
                         context
                             .read<StudentCubit>()
@@ -165,7 +165,7 @@ class EditStudentScreen extends StatelessWidget {
                         Navigator.pop(context);
                       }
                     },
-                    child: Text('Submit'),
+                    child: const Text('Submit'),
                   ),
                 ],
               ),

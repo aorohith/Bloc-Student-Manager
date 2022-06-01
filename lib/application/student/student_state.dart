@@ -2,7 +2,7 @@ part of 'student_cubit.dart';
 
 class StudentState {
   List<StudentModel> students;
-  XFile? photo;
+  String? photo;
   List<StudentModel> searchResult;
   StudentState({required this.students, this.photo,this.searchResult=const[]});
 }

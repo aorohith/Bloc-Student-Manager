@@ -46,7 +46,7 @@ class AddStudentScreen extends StatelessWidget {
                       ):
                       CircleAvatar(
                         backgroundImage: FileImage(
-                           File(state.photo!.path) ),
+                           File(state.photo!) ),
                         radius: 50,
                       )
                       ;
@@ -74,7 +74,7 @@ class AddStudentScreen extends StatelessWidget {
                                             source: ImageSource.camera);
                                         context
                                             .read<StudentCubit>()
-                                            .updatePhoto(photo!);
+                                            .updatePhoto(photo!.path);
                                         Navigator.pop(context);
                                       },
                                       child: Icon(Icons.camera_alt),
@@ -85,7 +85,7 @@ class AddStudentScreen extends StatelessWidget {
                                             source: ImageSource.gallery);
                                         context
                                             .read<StudentCubit>()
-                                            .updatePhoto(photo!);
+                                            .updatePhoto(photo!.path);
                                         Navigator.pop(context);
                                       },
                                       child: Icon(Icons.collections),
